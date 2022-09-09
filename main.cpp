@@ -49,7 +49,7 @@ bool interpert_line(const std::string& line)
 		case ']': // if current cell is 0 exit loop else go to start loop 
 			if (!start_loop_indices.size())
 			{
-				puts("[error] no start loop indicated");
+				fputs("[error] no start loop indicated", stderr);
 				goto exit_loop;
 			}
 			if (data[data_pointer] == 0)
@@ -94,7 +94,7 @@ int main(int argc, const char** argv)
 	{
 		if (argc == 2)
 		{
-			puts("[error] need to specify a string -s --string <str>");
+			fputs("[error] need to specify a string -s --string <str>\n", stderr);
 			return -1;
 		}
 		interpert_line(argv[2]);
@@ -105,7 +105,7 @@ int main(int argc, const char** argv)
 	{
 		if (argc == 2)
 		{
-			puts("[error] need to specify a filepath -f --file <path>");
+			fputs("[error] need to specify a filepath -f --file <path>\n", stderr);
 			return -1;
 		}
 
@@ -116,7 +116,7 @@ int main(int argc, const char** argv)
 
 		if (!fp)
 		{
-			printf("[error] failed to load from filepath: %s", argv[2]);
+			fprintf(stderr, "[error] failed to load from filepath: %s", argv[2]);
 			return -1;
 		}
 
@@ -127,6 +127,7 @@ int main(int argc, const char** argv)
 		fread(buffer, sizeof(char), file_size, fp);
 
 		std::string line = buffer;
+
 		for (char& ch : line)
 		{
 			if (ch == '\n') ch = ' ';
