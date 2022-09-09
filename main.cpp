@@ -89,7 +89,8 @@ int main(int argc, const char** argv)
 		puts("flags:\n-f --file <path> for interpeting the content of the file\n-s --string <str> for interepting a string");
 		return 0;
 	}
-	
+
+
 	if (strcmp(argv[1], "-s") == 0 or strcmp(argv[1], "--string") == 0) // string flag
 	{
 		if (argc == 2)
@@ -100,6 +101,7 @@ int main(int argc, const char** argv)
 		interpert_line(argv[2]);
 		return 0;
 	}
+
 
 	if (strcmp(argv[1], "-f") == 0 or strcmp(argv[1], "--file") == 0) // file flag
 	{
@@ -112,30 +114,31 @@ int main(int argc, const char** argv)
 		FILE* fp;
 		size_t file_size;
 		char* buffer;
+		
 		fopen_s(&fp, argv[2], "r");
 
-		if (!fp)
+		if (!fp) 
 		{
 			fprintf(stderr, "[error] failed to load from filepath: %s", argv[2]);
 			return -1;
 		}
 
+		//get file size
 		fseek(fp, 0L, SEEK_END);
 		file_size = ftell(fp);
 		rewind(fp);
+		
+		//read the file content
 		buffer = new char[file_size];
 		fread(buffer, sizeof(char), file_size, fp);
-
-		std::string line = buffer;
-
-		for (char& ch : line)
-		{
-			if (ch == '\n') ch = ' ';
-		}
-
-		interpert_line(line);
-		delete[] buffer;
 		fclose(fp);
+
+		interpert_line(buffer);
+		delete[] buffer;
+		
 		return 0;
 	}
+
+	fputs("[error] invalid usage\nenter bf-interpeter.exe -h for help\n", stderr);
+	return -1;
 }
