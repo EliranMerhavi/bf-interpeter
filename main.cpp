@@ -1,8 +1,7 @@
-
 #include <iostream>
 #include <string>
 #include <stack>
-
+#include <string.h>
 #define DATA_SIZE 30000
 
 
@@ -50,7 +49,7 @@ bool interpert_line(const std::string& line)
 			if (!start_loop_indices.size())
 			{
 				fputs("[error] no start loop indicated", stderr);
-				goto exit_loop;
+				break;
 			}
 			if (data[data_pointer] == 0)
 			{
@@ -65,8 +64,6 @@ bool interpert_line(const std::string& line)
 		 //default is comment	
 		}
 	}
-
-exit_loop: 
 	return true;
 }
 
@@ -84,14 +81,14 @@ int main(int argc, const char** argv)
 		return 0;
 	}
 
-	if (strcmp(argv[1], "-h") == 0 or strcmp(argv[1], "--help") == 0) //help mode
+	if (strcmp(argv[1], "-h") == 0 || strcmp(argv[1], "--help") == 0) //help mode
 	{
 		puts("flags:\n-f --file <path> for interpeting the content of the file\n-s --string <str> for interepting a string");
 		return 0;
 	}
 
 
-	if (strcmp(argv[1], "-s") == 0 or strcmp(argv[1], "--string") == 0) // string flag
+	if (strcmp(argv[1], "-s") == 0 || strcmp(argv[1], "--string") == 0) // string flag
 	{
 		if (argc == 2)
 		{
@@ -103,7 +100,7 @@ int main(int argc, const char** argv)
 	}
 
 
-	if (strcmp(argv[1], "-f") == 0 or strcmp(argv[1], "--file") == 0) // file flag
+	if (strcmp(argv[1], "-f") == 0 || strcmp(argv[1], "--file") == 0) // file flag
 	{
 		if (argc == 2)
 		{
@@ -115,7 +112,7 @@ int main(int argc, const char** argv)
 		size_t file_size;
 		char* buffer;
 		
-		fopen_s(&fp, argv[2], "r");
+		fp = fopen(argv[2], "r");
 
 		if (!fp) 
 		{
